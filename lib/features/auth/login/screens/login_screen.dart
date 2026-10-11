@@ -102,8 +102,95 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (value == null || value.trim().isEmpty) {
                       return 'Please enter your email';
                     }
-                    if (!RegExp(r'^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$')
-                        .hasMatch(value.trim())) {
+                    if (!RegExp(r'^[^@\\s]+@[^@\\s]+\\.[^@\\s]+
+                      return 'Please enter a valid email';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 20),
+                CustomTextField(
+                  controller: passwordController,
+                  hintText: 'Password',
+                  prefixIcon: Icons.lock_outline,
+                  isPassword: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your password';
+                    }
+                    if (value.length < 6) {
+                      return 'Password must be at least 6 characters';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    'Forgot Password?',
+                    style: TextStyle(
+                      color: AppTheme.primary,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 32),
+                PrimaryButton(
+                  text: 'Login',
+                  isLoading: _isLoading,
+                  onPressed: _login,
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Don't have an account? "),
+                    GestureDetector(
+                      onTap: _isLoading
+                          ? null
+                          : () {
+                              Navigator.pushReplacement(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder: (
+                                    context,
+                                    animation,
+                                    secondaryAnimation,
+                                  ) => const SignUpScreen(),
+                                  transitionsBuilder: (
+                                    context,
+                                    animation,
+                                    secondaryAnimation,
+                                    child,
+                                  ) {
+                                    return FadeTransition(
+                                      opacity: animation,
+                                      child: child,
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                      child: Text(
+                        'Sign Up',
+                        style: TextStyle(
+                          color: AppTheme.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+).hasMatch(value.trim())) {
                       return 'Please enter a valid email';
                     }
                     return null;
