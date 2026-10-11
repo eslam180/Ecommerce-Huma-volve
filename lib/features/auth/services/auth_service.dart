@@ -73,7 +73,7 @@ class AuthService {
     try {
       final response = await _dio.get<Map<String, dynamic>>(
         '/auth/profile',
-        options: Options(headers: {'Authorization': 'Bearer ' + token}),
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
       return response.data ?? <String, dynamic>{};
     } on DioException catch (error) {
@@ -109,9 +109,7 @@ class AuthService {
         if (error.response == null) {
           return 'Could not connect to the server. Check your internet connection.';
         }
-        return 'Request failed (' +
-            error.response!.statusCode.toString() +
-            '). Please try again.';
+        return 'Request failed (${error.response!.statusCode}). Please try again.';
     }
   }
 }
