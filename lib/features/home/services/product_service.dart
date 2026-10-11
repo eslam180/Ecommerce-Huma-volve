@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import '../../../../core/dummy_data.dart';
 
 class ProductService {
@@ -73,7 +74,7 @@ class ProductService {
       description: json['description']?.toString() ?? '',
       price: price,
       imageUrl: imageUrl,
-      colors: const [],
+      colors: [Colors.black],
       sizes: const ['One Size'],
       category: categoryName,
     );
