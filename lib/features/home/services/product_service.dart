@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/dummy_data.dart';
+import '../../../core/dummy_data.dart';
 
 class ProductService {
   ProductService({Dio? dio})
@@ -73,7 +73,9 @@ class ProductService {
       name: json['title']?.toString() ?? 'Unnamed product',
       description: json['description']?.toString() ?? '',
       price: price,
-      imageUrl: imageUrl,
+      imageUrl: imageUrl.isEmpty
+          ? 'https://placehold.co/600x600?text=No+Image'
+          : imageUrl,
       colors: [Colors.black],
       sizes: const ['One Size'],
       category: categoryName,
