@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../../../../core/dummy_data.dart';
+import '../../../core/dummy_data.dart';
 import '../services/product_service.dart';
 
 class HomeController extends ChangeNotifier {
