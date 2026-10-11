@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/widgets/custom_text_field.dart';
 import '../../../../core/widgets/primary_button.dart';
 import '../../../../core/theme.dart';
-import '../services/auth_service.dart';
+import '../../services/auth_service.dart';
 import '../login/screens/login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -47,11 +47,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
         password: passwordController.text,
       );
       if (!mounted) return;
+      final messenger = ScaffoldMessenger.of(context);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const LoginScreen()),
       );
-      ScaffoldMessenger.of(context).showSnackBar(
+      messenger.showSnackBar(
         const SnackBar(
           content: Text('Account created successfully. Please log in.'),
         ),
@@ -124,7 +125,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     if (value == null || value.trim().isEmpty) {
                       return 'Please enter your email';
                     }
-                    if (!RegExp(r'^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$')
+                    if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$')
                         .hasMatch(value.trim())) {
                       return 'Please enter a valid email';
                     }
