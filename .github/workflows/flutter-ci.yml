@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - feature/auth-api
+      - feature/home-api-state-management
   pull_request:
     branches:
       - master
