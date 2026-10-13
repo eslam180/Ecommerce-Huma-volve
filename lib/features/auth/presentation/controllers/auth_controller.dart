@@ -8,8 +8,7 @@ import '../../domain/usecases/logout.dart';
 import '../../domain/usecases/register.dart';
 
 class AuthController extends ChangeNotifier {
-  AuthController({required AuthRepository repository})
-      : _repository = repository {
+  AuthController({required this._repository}) {
     _login = Login(_repository);
     _register = Register(_repository);
     _getProfile = GetProfile(_repository);
