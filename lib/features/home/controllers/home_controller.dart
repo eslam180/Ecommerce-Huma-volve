@@ -1,14 +1,13 @@
 import 'package:flutter/foundation.dart';
 
-import '../data/repositories/product_repository_impl.dart';
 import '../domain/entities/product.dart';
 import '../domain/repositories/product_repository.dart';
 import '../domain/usecases/get_categories.dart';
 import '../domain/usecases/get_products.dart';
 
 class HomeController extends ChangeNotifier {
-  HomeController({ProductRepository? repository})
-      : _repository = repository ?? ProductRepositoryImpl() {
+  HomeController({required ProductRepository repository})
+      : _repository = repository {
     _getProducts = GetProducts(_repository);
     _getCategories = GetCategories(_repository);
   }
