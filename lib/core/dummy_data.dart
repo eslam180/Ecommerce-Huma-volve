@@ -9,7 +9,7 @@ final dummyProducts = [
     description: 'Comfortable and stylish white sneakers for everyday use.',
     price: 59.99,
     imageUrl: 'https://picsum.photos/seed/sneakers/300/300',
-    colors: [Colors.white.value, Colors.black.value, Colors.grey.value],
+    colors: [Colors.white.toARGB32(), Colors.black.toARGB32(), Colors.grey.toARGB32()],
     sizes: ['40', '41', '42', '43'],
   ),
   Product(
@@ -18,7 +18,7 @@ final dummyProducts = [
     description: 'A classic denim jacket that never goes out of style.',
     price: 89.99,
     imageUrl: 'https://picsum.photos/seed/jacket/300/300',
-    colors: [Colors.blue.value, Colors.black.value],
+    colors: [Colors.blue.toARGB32(), Colors.black.toARGB32()],
     sizes: ['S', 'M', 'L', 'XL'],
   ),
   Product(
@@ -27,7 +27,7 @@ final dummyProducts = [
     description: 'High-quality noise-canceling wireless headphones.',
     price: 199.99,
     imageUrl: 'https://picsum.photos/seed/headphones/300/300',
-    colors: [Colors.black.value, Colors.grey.value],
+    colors: [Colors.black.toARGB32(), Colors.grey.toARGB32()],
     sizes: ['One Size'],
   ),
   Product(
@@ -36,7 +36,7 @@ final dummyProducts = [
     description: 'Stay connected and track your fitness with this smart watch.',
     price: 149.99,
     imageUrl: 'https://picsum.photos/seed/watch/300/300',
-    colors: [Colors.black.value, Colors.blue.value, Colors.pink.value],
+    colors: [Colors.black.toARGB32(), Colors.blue.toARGB32(), Colors.pink.toARGB32()],
     sizes: ['One Size'],
   ),
 ];
