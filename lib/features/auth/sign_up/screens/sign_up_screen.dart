@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/widgets/custom_text_field.dart';
 import '../../../../core/widgets/primary_button.dart';
 import '../../../../core/theme.dart';
-import '../../services/auth_service.dart';
+import '../../presentation/controllers/auth_controller.dart';
 import '../../login/screens/login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -19,10 +19,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
   bool _isLoading = false;
+  late final AuthController _authController;
 
   @override
   void initState() {
     super.initState();
+    _authController = AuthController();
     nameController = TextEditingController();
     emailController = TextEditingController();
     passwordController = TextEditingController();
@@ -30,6 +32,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void dispose() {
+    _authController.dispose();
     nameController.dispose();
     emailController.dispose();
     passwordController.dispose();
@@ -40,13 +43,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (!(_formKey.currentState?.validate() ?? false) || _isLoading) return;
 
     setState(() => _isLoading = true);
-    try {
-      await AuthService.instance.signUp(
-        name: nameController.text,
-        email: emailController.text,
-        password: passwordController.text,
-      );
-      if (!mounted) return;
+    final success = await _authController.register(
+      name: nameController.text,
+      email: emailController.text,
+      password: passwordController.text,
+    );
+
+    if (!mounted) return;
+    if (success) {
       final messenger = ScaffoldMessenger.of(context);
       Navigator.pushReplacement(
         context,
@@ -57,19 +61,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
           content: Text('Account created successfully. Please log in.'),
         ),
       );
-    } on AuthException catch (error) {
-      if (!mounted) return;
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(error.message)),
+        SnackBar(
+          content: Text(
+            _authController.errorMessage ?? 'Could not create account. Please try again.',
+          ),
+        ),
       );
-    } catch (_) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Something went wrong. Please try again.')),
-      );
-    } finally {
-      if (mounted) setState(() => _isLoading = false);
     }
+    setState(() => _isLoading = false);
   }
 
   @override
