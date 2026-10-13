@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/di/app_dependencies.dart';
 import '../../../../core/widgets/custom_text_field.dart';
 import '../../../../core/widgets/primary_button.dart';
 import '../../../../core/theme.dart';
@@ -24,7 +25,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   void initState() {
     super.initState();
-    _authController = AuthController();
+    _authController = AppDependencies.createAuthController();
     nameController = TextEditingController();
     emailController = TextEditingController();
     passwordController = TextEditingController();
