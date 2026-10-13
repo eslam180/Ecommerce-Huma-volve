@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 
-import '../../data/repositories/auth_repository_impl.dart';
 import '../../domain/entities/auth_session.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../../domain/usecases/get_profile.dart';
@@ -9,8 +8,8 @@ import '../../domain/usecases/logout.dart';
 import '../../domain/usecases/register.dart';
 
 class AuthController extends ChangeNotifier {
-  AuthController({AuthRepository? repository})
-      : _repository = repository ?? AuthRepositoryImpl.instance {
+  AuthController({required AuthRepository repository})
+      : _repository = repository {
     _login = Login(_repository);
     _register = Register(_repository);
     _getProfile = GetProfile(_repository);
