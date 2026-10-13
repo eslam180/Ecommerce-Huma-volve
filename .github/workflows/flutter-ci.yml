@@ -5,6 +5,7 @@ on:
     branches:
       - feature/auth-api
       - feature/home-api-state-management
+      - feature/clean-architecture-auth-home
   pull_request:
     branches:
       - master
