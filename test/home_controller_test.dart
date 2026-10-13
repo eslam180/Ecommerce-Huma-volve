@@ -1,43 +1,42 @@
-import 'package:ecommerce_app_huma_volve/core/dummy_data.dart';
+import 'package:ecommerce_app_huma_volve/features/home/domain/entities/product.dart';
+import 'package:ecommerce_app_huma_volve/features/home/domain/repositories/product_repository.dart';
 import 'package:ecommerce_app_huma_volve/features/home/controllers/home_controller.dart';
-import 'package:ecommerce_app_huma_volve/features/home/services/product_service.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-class FakeProductService extends ProductService {
-  FakeProductService(this.products, this.categoryNames);
+class FakeProductRepository implements ProductRepository {
+  FakeProductRepository(this.products, this.categoryNames);
 
   final List<Product> products;
   final List<String> categoryNames;
 
   @override
-  Future<List<Product>> fetchProducts() async => products;
+  Future<List<Product>> getProducts() async => products;
 
   @override
-  Future<List<String>> fetchCategories() async => categoryNames;
+  Future<List<String>> getCategories() async => categoryNames;
 }
 
 void main() {
   late HomeController controller;
 
   final products = [
-    Product(
+    const Product(
       id: '1',
       name: 'Classic Sneakers',
       description: 'Everyday shoes',
       price: 59.99,
       imageUrl: 'https://example.com/shoes.png',
-      colors: [Colors.black],
+      colors: [0xFF000000],
       sizes: ['42'],
       category: 'Shoes',
     ),
-    Product(
+    const Product(
       id: '2',
       name: 'Denim Jacket',
       description: 'Blue denim jacket',
       price: 89.99,
       imageUrl: 'https://example.com/jacket.png',
-      colors: [Colors.blue],
+      colors: [0xFF0000FF],
       sizes: ['M'],
       category: 'Clothing',
     ),
@@ -45,15 +44,13 @@ void main() {
 
   setUp(() {
     controller = HomeController(
-      productService: FakeProductService(products, ['Shoes', 'Clothing']),
+      repository: FakeProductRepository(products, ['Shoes', 'Clothing']),
     );
   });
 
-  tearDown(() {
-    controller.dispose();
-  });
+  tearDown(() => controller.dispose());
 
-  test('loads products and categories from the service', () async {
+  test('loads products and categories through the domain repository', () async {
     await controller.loadProducts();
 
     expect(controller.isLoading, isFalse);
