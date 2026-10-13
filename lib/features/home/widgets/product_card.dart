@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/dummy_data.dart';
+import '../domain/entities/product.dart';
 import '../../../core/theme.dart';
 import '../../details/screens/product_details_screen.dart';
 

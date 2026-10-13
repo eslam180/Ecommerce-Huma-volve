@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/di/app_dependencies.dart';
 import '../../../core/dummy_data.dart';
 import '../../../core/theme.dart';
 import '../controllers/home_controller.dart';
@@ -19,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _controller = HomeController();
+    _controller = AppDependencies.createHomeController();
     _controller.loadProducts();
   }
 

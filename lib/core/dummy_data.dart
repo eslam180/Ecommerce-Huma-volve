@@ -1,26 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Product {
-  final String id;
-  final String name;
-  final String description;
-  final double price;
-  final String imageUrl;
-  final List<Color> colors;
-  final List<String> sizes;
-  final String category;
-
-  Product({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.price,
-    required this.imageUrl,
-    required this.colors,
-    required this.sizes,
-    this.category = '',
-  });
-}
+import '../features/home/domain/entities/product.dart';
 
 final dummyProducts = [
   Product(
@@ -29,7 +9,7 @@ final dummyProducts = [
     description: 'Comfortable and stylish white sneakers for everyday use.',
     price: 59.99,
     imageUrl: 'https://picsum.photos/seed/sneakers/300/300',
-    colors: [Colors.white, Colors.black, Colors.grey],
+    colors: [Colors.white.toARGB32(), Colors.black.toARGB32(), Colors.grey.toARGB32()],
     sizes: ['40', '41', '42', '43'],
   ),
   Product(
@@ -38,7 +18,7 @@ final dummyProducts = [
     description: 'A classic denim jacket that never goes out of style.',
     price: 89.99,
     imageUrl: 'https://picsum.photos/seed/jacket/300/300',
-    colors: [Colors.blue, Colors.black],
+    colors: [Colors.blue.toARGB32(), Colors.black.toARGB32()],
     sizes: ['S', 'M', 'L', 'XL'],
   ),
   Product(
@@ -47,7 +27,7 @@ final dummyProducts = [
     description: 'High-quality noise-canceling wireless headphones.',
     price: 199.99,
     imageUrl: 'https://picsum.photos/seed/headphones/300/300',
-    colors: [Colors.black, Colors.grey],
+    colors: [Colors.black.toARGB32(), Colors.grey.toARGB32()],
     sizes: ['One Size'],
   ),
   Product(
@@ -56,7 +36,7 @@ final dummyProducts = [
     description: 'Stay connected and track your fitness with this smart watch.',
     price: 149.99,
     imageUrl: 'https://picsum.photos/seed/watch/300/300',
-    colors: [Colors.black, Colors.blue, Colors.pink],
+    colors: [Colors.black.toARGB32(), Colors.blue.toARGB32(), Colors.pink.toARGB32()],
     sizes: ['One Size'],
   ),
 ];

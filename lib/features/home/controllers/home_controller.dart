@@ -1,13 +1,19 @@
 import 'package:flutter/foundation.dart';
 
-import '../../../core/dummy_data.dart';
-import '../services/product_service.dart';
+import '../domain/entities/product.dart';
+import '../domain/repositories/product_repository.dart';
+import '../domain/usecases/get_categories.dart';
+import '../domain/usecases/get_products.dart';
 
 class HomeController extends ChangeNotifier {
-  HomeController({ProductService? productService})
-      : _productService = productService ?? ProductService();
+  HomeController({required this._repository}) {
+    _getProducts = GetProducts(_repository);
+    _getCategories = GetCategories(_repository);
+  }
 
-  final ProductService _productService;
+  final ProductRepository _repository;
+  late final GetProducts _getProducts;
+  late final GetCategories _getCategories;
 
   List<Product> _products = [];
   List<String> _categories = ['All'];
@@ -25,7 +31,6 @@ class HomeController extends ChangeNotifier {
 
   List<Product> get visibleProducts {
     final query = _searchQuery.trim().toLowerCase();
-
     return _products.where((product) {
       final matchesCategory = _selectedCategory == 'All' ||
           product.category.toLowerCase() == _selectedCategory.toLowerCase();
@@ -42,10 +47,10 @@ class HomeController extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final products = await _productService.fetchProducts();
+      final products = await _getProducts();
       List<String> categoryNames;
       try {
-        categoryNames = await _productService.fetchCategories();
+        categoryNames = await _getCategories();
       } catch (_) {
         categoryNames = products
             .map((product) => product.category)
@@ -53,14 +58,14 @@ class HomeController extends ChangeNotifier {
             .toSet()
             .toList();
       }
-
       _products = products;
       _categories = ['All', ...categoryNames];
       if (!_categories.contains(_selectedCategory)) {
         _selectedCategory = 'All';
       }
     } catch (_) {
-      _errorMessage = 'Could not load products. Please check your connection and try again.';
+      _errorMessage =
+          'Could not load products. Please check your connection and try again.';
     } finally {
       _isLoading = false;
       notifyListeners();
