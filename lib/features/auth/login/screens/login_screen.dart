@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/widgets/custom_text_field.dart';
 import '../../../../core/widgets/primary_button.dart';
 import '../../../../core/theme.dart';
-import '../../services/auth_service.dart';
+import '../../presentation/controllers/auth_controller.dart';
 import '../../../main_navigation/screens/main_navigation_screen.dart';
 import '../../sign_up/screens/sign_up_screen.dart';
 
@@ -19,16 +19,19 @@ class _LoginScreenState extends State<LoginScreen> {
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
   bool _isLoading = false;
+  late final AuthController _authController;
 
   @override
   void initState() {
     super.initState();
+    _authController = AuthController();
     emailController = TextEditingController();
     passwordController = TextEditingController();
   }
 
   @override
   void dispose() {
+    _authController.dispose();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -38,30 +41,28 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!(_formKey.currentState?.validate() ?? false) || _isLoading) return;
 
     setState(() => _isLoading = true);
-    try {
-      await AuthService.instance.login(
-        email: emailController.text,
-        password: passwordController.text,
-      );
-      if (!mounted) return;
+    final success = await _authController.login(
+      email: emailController.text,
+      password: passwordController.text,
+    );
+
+    if (!mounted) return;
+    if (success) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => const MainNavigationScreen(),
         ),
       );
-    } on AuthException catch (error) {
-      if (!mounted) return;
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(error.message)),
+        SnackBar(
+          content: Text(
+            _authController.errorMessage ?? 'Could not log in. Please try again.',
+          ),
+        ),
       );
-    } catch (_) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Something went wrong. Please try again.')),
-      );
-    } finally {
-      if (mounted) setState(() => _isLoading = false);
     }
+    setState(() => _isLoading = false);
   }
 
   @override
