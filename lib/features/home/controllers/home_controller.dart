@@ -6,8 +6,7 @@ import '../domain/usecases/get_categories.dart';
 import '../domain/usecases/get_products.dart';
 
 class HomeController extends ChangeNotifier {
-  HomeController({required ProductRepository repository})
-      : _repository = repository {
+  HomeController({required this._repository}) {
     _getProducts = GetProducts(_repository);
     _getCategories = GetCategories(_repository);
   }
