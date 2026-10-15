@@ -16,16 +16,28 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late final HomeController _controller;
+  late final ScrollController _scrollController;
+
+  void _onScroll() {
+    if (!_scrollController.hasClients) return;
+    if (_scrollController.position.extentAfter < 500) {
+      _controller.loadMoreProducts();
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     _controller = AppDependencies.createHomeController();
+    _scrollController = ScrollController()..addListener(_onScroll);
     _controller.loadProducts();
   }
 
   @override
   void dispose() {
+    _scrollController
+      ..removeListener(_onScroll)
+      ..dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -43,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: RefreshIndicator(
               onRefresh: _controller.loadProducts,
               child: CustomScrollView(
+                controller: _scrollController,
                 physics: const AlwaysScrollableScrollPhysics(),
                 slivers: [
                   SliverToBoxAdapter(
@@ -202,7 +215,34 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-                  const SliverToBoxAdapter(child: SizedBox(height: 24)),
+                  if (_controller.isLoadingMore)
+                    const SliverToBoxAdapter(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 24),
+                        child: Center(
+                          child: SizedBox(
+                            height: 28,
+                            width: 28,
+                            child: CircularProgressIndicator(strokeWidth: 2.5),
+                          ),
+                        ),
+                      ),
+                    )
+                  else if (_controller.loadMoreError != null)
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
+                        child: Center(
+                          child: TextButton.icon(
+                            onPressed: _controller.loadMoreProducts,
+                            icon: const Icon(Icons.refresh),
+                            label: Text(_controller.loadMoreError!),
+                          ),
+                        ),
+                      ),
+                    )
+                  else
+                    const SliverToBoxAdapter(child: SizedBox(height: 24)),
                 ],
               ),
             ),
