@@ -9,7 +9,11 @@ class ProductRepositoryImpl implements ProductRepository {
   final ProductRemoteDataSource _dataSource;
 
   @override
-  Future<List<Product>> getProducts() => _dataSource.fetchProducts();
+  Future<List<Product>> getProducts({
+    required int limit,
+    required int offset,
+  }) =>
+      _dataSource.fetchProducts(limit: limit, offset: offset);
 
   @override
   Future<List<String>> getCategories() => _dataSource.fetchCategories();
