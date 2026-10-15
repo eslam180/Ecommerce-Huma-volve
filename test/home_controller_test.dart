@@ -31,12 +31,12 @@ Product makeProduct(int index, {String category = 'Shoes'}) {
   return Product(
     id: '$index',
     name: index == 13 ? 'Denim Jacket' : 'Product $index',
-    description: 'Description $index',
+    description: index == 13 ? 'Blue denim jacket' : 'Description $index',
     price: 20.0 + index,
     imageUrl: 'https://example.com/$index.png',
     colors: const [0xFF000000],
     sizes: const ['M'],
-    category: category,
+    category: index == 13 ? 'Clothing' : category,
   );
 }
 
@@ -77,6 +77,7 @@ void main() {
 
   test('filters products by search and selected category', () async {
     await controller.loadProducts();
+    await controller.loadMoreProducts();
 
     controller.setSearchQuery('jacket');
     expect(controller.visibleProducts.map((product) => product.name),
@@ -84,6 +85,6 @@ void main() {
 
     controller.setSearchQuery('');
     controller.selectCategory('Shoes');
-    expect(controller.visibleProducts, hasLength(HomeController.pageSize));
+    expect(controller.visibleProducts, hasLength(13));
   });
 }
