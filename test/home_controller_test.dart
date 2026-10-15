@@ -17,7 +17,9 @@ class FakeProductRepository implements ProductRepository {
   }) async {
     requestedOffsets.add(offset);
     if (offset >= products.length) return [];
-    final end = (offset + limit).clamp(0, products.length);
+    final end = offset + limit < products.length
+        ? offset + limit
+        : products.length;
     return products.sublist(offset, end);
   }
 
