@@ -6,5 +6,7 @@ class GetProducts {
 
   final ProductRepository _repository;
 
-  Future<List<Product>> call() => _repository.getProducts();
+  Future<List<Product>> call({required int limit, required int offset}) {
+    return _repository.getProducts(limit: limit, offset: offset);
+  }
 }
