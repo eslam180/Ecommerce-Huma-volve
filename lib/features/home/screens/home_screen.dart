@@ -20,7 +20,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _onScroll() {
     if (!_scrollController.hasClients) return;
-    if (_scrollController.position.extentAfter < 500) {
+    if (_controller.loadMoreError == null &&
+        _scrollController.position.extentAfter < 500) {
       _controller.loadMoreProducts();
     }
   }
