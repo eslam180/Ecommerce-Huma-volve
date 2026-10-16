@@ -6,6 +6,7 @@ on:
       - feature/auth-api
       - feature/home-api-state-management
       - feature/clean-architecture-auth-home
+      - pagination
   pull_request:
     branches:
       - master

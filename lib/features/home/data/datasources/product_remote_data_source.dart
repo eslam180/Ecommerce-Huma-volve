@@ -19,10 +19,13 @@ class ProductRemoteDataSource {
 
   final Dio _dio;
 
-  Future<List<ProductModel>> fetchProducts() async {
+  Future<List<ProductModel>> fetchProducts({
+    required int limit,
+    required int offset,
+  }) async {
     final response = await _dio.get<List<dynamic>>(
       '/products',
-      queryParameters: {'limit': 20, 'offset': 0},
+      queryParameters: {'limit': limit, 'offset': offset},
     );
     final data = response.data;
     if (data == null) {
