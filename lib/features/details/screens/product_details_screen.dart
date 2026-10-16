@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../home/domain/entities/product.dart';
 import '../../../core/theme.dart';
 import '../widgets/color_selector.dart';
@@ -48,15 +49,26 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
             actions: [
               IconButton(
+                tooltip: 'Copy product link',
                 icon: Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.9),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.favorite_border, size: 18),
+                  child: const Icon(Icons.link, size: 18),
                 ),
-                onPressed: () {},
+                onPressed: () async {
+                  final link = 'humavolve://product/${widget.product.id}';
+                  await Clipboard.setData(ClipboardData(text: link));
+                  if (!context.mounted) return;
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Product link copied'),
+                      behavior: SnackBarBehavior.floating,
+                    ),
+                  );
+                },
               ),
               const SizedBox(width: 8),
             ],

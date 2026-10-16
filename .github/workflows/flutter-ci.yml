@@ -7,6 +7,7 @@ on:
       - feature/home-api-state-management
       - feature/clean-architecture-auth-home
       - pagination
+      - deep-linking
   pull_request:
     branches:
       - master

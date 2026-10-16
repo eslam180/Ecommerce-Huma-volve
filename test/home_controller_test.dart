@@ -24,6 +24,11 @@ class FakeProductRepository implements ProductRepository {
   }
 
   @override
+  Future<Product> getProductById(String id) async {
+    return products.firstWhere((product) => product.id == id);
+  }
+
+  @override
   Future<List<String>> getCategories() async => categoryNames;
 }
 
