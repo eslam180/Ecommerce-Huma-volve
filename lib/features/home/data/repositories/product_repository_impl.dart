@@ -16,5 +16,8 @@ class ProductRepositoryImpl implements ProductRepository {
       _dataSource.fetchProducts(limit: limit, offset: offset);
 
   @override
+  Future<Product> getProductById(String id) => _dataSource.fetchProductById(id);
+
+  @override
   Future<List<String>> getCategories() => _dataSource.fetchCategories();
 }
