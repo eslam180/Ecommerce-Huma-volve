@@ -2,6 +2,7 @@ import '../../features/auth/data/repositories/auth_repository_impl.dart';
 import '../../features/auth/presentation/controllers/auth_controller.dart';
 import '../../features/home/controllers/home_controller.dart';
 import '../../features/home/data/repositories/product_repository_impl.dart';
+import '../../features/home/domain/repositories/product_repository.dart';
 
 class AppDependencies {
   AppDependencies._();
@@ -10,7 +11,11 @@ class AppDependencies {
     return AuthController(repository: AuthRepositoryImpl.instance);
   }
 
+  static ProductRepository createProductRepository() {
+    return ProductRepositoryImpl();
+  }
+
   static HomeController createHomeController() {
-    return HomeController(repository: ProductRepositoryImpl());
+    return HomeController(repository: createProductRepository());
   }
 }
