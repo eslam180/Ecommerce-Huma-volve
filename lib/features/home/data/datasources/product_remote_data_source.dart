@@ -38,6 +38,15 @@ class ProductRemoteDataSource {
         .toList();
   }
 
+  Future<ProductModel> fetchProductById(String id) async {
+    final response = await _dio.get<Map<String, dynamic>>('/products/$id');
+    final data = response.data;
+    if (data == null || data['id'] == null) {
+      throw Exception('Product not found.');
+    }
+    return ProductModel.fromJson(data);
+  }
+
   Future<List<String>> fetchCategories() async {
     final response = await _dio.get<List<dynamic>>('/categories');
     final data = response.data ?? const <dynamic>[];
